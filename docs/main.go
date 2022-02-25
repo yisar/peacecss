@@ -18,7 +18,7 @@ func main() {
 
 	js.Global().Set("cssnextParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		parser := cssnext.NewParser()
-		s := []byte(".a{color:#fff;}")
+		s := []byte(args[0].String())
 		ast := parser.Parse(s)
 
 		out := ast.ToPrettyJSONString()

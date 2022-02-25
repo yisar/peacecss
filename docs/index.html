@@ -37,6 +37,7 @@
             word-break: break-all;
             resize: none;
             font-size: 16px;
+            overflow: scroll;
         }
     </style>
     <div class="container">
@@ -60,19 +61,17 @@
             inst = result.instance;
             go.run(inst);
 
-            function defer() {
-                const input = document.querySelector('.editor');
-                const output = document.querySelector('.output');
-                input.value = `.a{color: #fff;}`;
-                output.textContent = window.cssnextParse(input.value);
-                input.oninput = (e) => {
-                    const i = e.target.value
-                    const o = window.cssnextParse(i)
-                    output.textContent = o;
-                }
+
+            const input = document.querySelector('.editor');
+            const output = document.querySelector('.output');
+            input.value = `.a{color: #fff;}`;
+            output.textContent = window.cssnextParse(input.value);
+            input.oninput = (e) => {
+                const i = e.target.value
+                const o = window.cssnextParse(i)
+                output.textContent = o;
             }
 
-            setTimeout(defer, 200)
 
         }).catch((err) => {
             console.error(err);
