@@ -157,7 +157,6 @@ func (l *CSSDefinitionTree) Remains() (remains bool) {
 	if len(l.definitions) > 0 {
 		remains = true
 	}
-
 	return
 }
 
@@ -165,7 +164,6 @@ func (l *CSSDefinitionTree) HasParent() (has bool) {
 	if len(l.definitions) > 1 {
 		has = true
 	}
-
 	return
 }
 

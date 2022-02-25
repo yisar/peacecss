@@ -16,22 +16,26 @@
         }
 
         body {
-            color: 333;
+            color: #333;
             font-size: 20px;
+            background: #f8f8f8;
+        }
+
+        h1{
+            margin: 20px;
         }
 
         .container {
             display: flex;
-            height: 100vh;
         }
 
         .editor,
         .output {
             flex: 1;
-            background: rgba(127, 127, 127, .1);
-            border: 1px solid rgba(127, 127, 127, .5);
+            background: rgba(127, 127, 127, .2);
+            outline: none;
+            border: 0px;
             margin: 20px;
-            border-radius: 10px;
             padding: 20px;
             white-space: pre-wrap;
             word-break: break-all;
@@ -40,6 +44,7 @@
             overflow: scroll;
         }
     </style>
+    <h1>NextCSS playground</h1>
     <div class="container">
         <textarea name="" id="" cols="30" rows="10" class="editor"
             placeholder="Please input any wxml template..."></textarea>
