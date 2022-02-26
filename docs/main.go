@@ -13,27 +13,7 @@ func JSONStringfy(data []*nextcss.CSSDefinition) string {
 	return string(ret)
 }
 
-func main() {
-	// parser := nextcss.NewParser()
-
-	// s := []byte(".a{color:#fff;}")
-
-	// ast := parser.Parse(s)
-	
-	// ast.Walk(func (node *nextcss.CSSDefinition){
-	// 	fmt.Printf("before: %v\n", node)
-		
-	// 	node.Selector.Selector = ".b"
-	
-	// 	fmt.Printf("after: %v\n", node)
-	// })
-
-	// ast.Minisize()
-
-	// json := ast.ToPrettyJSON()
-
-	// fmt.Printf("ast: %s\n", json)
-
+func registerWasm() {
 	js.Global().Set("nextcssParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		parser := nextcss.NewParser()
 		s := []byte(args[0].String())
@@ -51,4 +31,30 @@ func main() {
 	}))
 
 	select {}
+}
+
+func test() {
+	parser := nextcss.NewParser()
+
+	s := []byte(".a{color:#fff;}")
+
+	ast := parser.Parse(s)
+
+	ast.Walk(func (node *nextcss.CSSDefinition){
+		fmt.Printf("before: %v\n", node)
+
+		node.Selector.Selector = ".b"
+
+		fmt.Printf("after: %v\n", node)
+	})
+
+	ast.Minisize()
+
+	json := JSONStringfy(ast.GetData())
+
+	fmt.Printf("ast: %s\n", json)
+}
+
+func main() {
+	registerWasm()
 }
