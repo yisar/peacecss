@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/yisar/nextcss"
+	"github.com/yisar/cuss"
 )
 
 func main() {
