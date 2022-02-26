@@ -1,3 +1,3 @@
-module github.com/yisar/nextcss
+module github.com/yisar/cuss
 
 go 1.17

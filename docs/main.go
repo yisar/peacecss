@@ -4,26 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 	"syscall/js"
-
-	nextcss "github.com/yisar/nextcss"
+	cuss "github.com/yisar/cuss"
 )
 
-func JSONStringfy(data []*nextcss.CSSDefinition) string {
+func JSONStringfy(data []*cuss.CSSDefinition) string {
 	ret, _ := json.MarshalIndent(data, "", "  ")
 	return string(ret)
 }
 
 func registerWasm() {
-	js.Global().Set("nextcssParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		parser := nextcss.NewParser()
+	js.Global().Set("cussParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		parser := cuss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
 		out := JSONStringfy(ast.GetData())
 		return out
 	}))
 
-	js.Global().Set("nextcssMinisize", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		parser := nextcss.NewParser()
+	js.Global().Set("cussMinisize", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		parser := cuss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
 		out := ast.Minisize()
@@ -34,13 +33,13 @@ func registerWasm() {
 }
 
 func test() {
-	parser := nextcss.NewParser()
+	parser := cuss.NewParser()
 
 	s := []byte(".a{color:#fff;}")
 
 	ast := parser.Parse(s)
 
-	ast.Walk(func (node *nextcss.CSSDefinition){
+	ast.Walk(func (node *cuss.CSSDefinition){
 		fmt.Printf("before: %v\n", node)
 
 		node.Selector.Selector = ".b"
