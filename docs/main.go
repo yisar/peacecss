@@ -2,7 +2,7 @@ package main
 
 import (
 	"syscall/js"
-	cssnext "github.com/yisar/cssnext"
+	cssnext "github.com/yisar/nextcss"
 )
 
 func main() {

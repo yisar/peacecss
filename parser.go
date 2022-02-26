@@ -1,4 +1,4 @@
-package cssnext
+package nextcss
 
 import (
 	"bytes"
@@ -44,8 +44,6 @@ type CSSValue struct {
 	Value     string `json:"data"`
 	DefLine   int    `json:"line"`
 	Point     int    `json:"column"`
-	Before    string `json:"before"`
-	After     string `json:"after"`
 	Semicolon bool   `json:"semicolon"`
 	RawData   string `json:"raw"`
 }
@@ -53,8 +51,6 @@ type CSSValue struct {
 type CSSSelector struct {
 	Selector        string `json:"selector"`
 	ControlSelector bool   `json:"atrule"`
-	Before          string `json:"before"`
-	After           string `json:"after"`
 	RawData         string `json:"raw"`
 	RawOffset       int    `json:"-"`
 }
@@ -64,8 +60,6 @@ type CSSRule struct {
 	Value     *CSSValue `json:"value"`
 	DefLine   int       `json:"line"`
 	Point     int       `json:"column"`
-	Before    string    `json:"before"`
-	After     string    `json:"after"`
 	RawData   string    `json:"raw"`
 	RawPoint  int       `json:"-"`
 	RawOffset int       `json:"-"`
@@ -204,13 +198,11 @@ func (c CSSParseResult) GetData() []*CSSDefinition {
 }
 
 func NewRule(property []byte, line, point int) *CSSRule {
-	before, prop, after, offset := parseBytes(property)
+	_, prop, _, offset := parseBytes(property)
 	return &CSSRule{
 		Property:  string(prop),
 		DefLine:   line,
 		Point:     point - offset,
-		Before:    string(before),
-		After:     string(after),
 		RawData:   string(property),
 		RawPoint:  point,
 		RawOffset: offset,
@@ -230,7 +222,7 @@ func (r *CSSRule) SetValue(value []byte, index, point int, semicolon bool) {
 }
 
 func NewSelector(selBytes []byte) *CSSSelector {
-	before, selector, after, offset := parseBytes(selBytes)
+	_, selector, _, offset := parseBytes(selBytes)
 	var isControl bool
 
 	if len(selector) > 0 && selector[0] == AT {
@@ -240,10 +232,8 @@ func NewSelector(selBytes []byte) *CSSSelector {
 	}
 
 	return &CSSSelector{
-		Before:          string(before),
 		Selector:        string(selector),
 		ControlSelector: isControl,
-		After:           string(after),
 		RawData:         string(selBytes),
 		RawOffset:       offset,
 	}
@@ -258,13 +248,11 @@ func (s *CSSSelector) IsControlSelector() bool {
 }
 
 func NewValue(val []byte, line, point int, semicolon bool) *CSSValue {
-	before, value, after, offset := parseBytes(val)
+	_, value, _, offset := parseBytes(val)
 	return &CSSValue{
 		Value:     string(value),
 		DefLine:   line,
 		Point:     point - offset,
-		Before:    string(before),
-		After:     string(after),
 		RawData:   string(val),
 		Semicolon: semicolon,
 	}
@@ -555,6 +543,5 @@ func isEmptyStack(stack []byte) (isEmpty bool) {
 	if len(bytes.Trim(stack, "\r\n\t ")) == 0 {
 		isEmpty = true
 	}
-
 	return
 }
