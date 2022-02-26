@@ -1,7 +1,7 @@
 # peacecss
 Postcss alternative.
 
-### [Playground](https://yisar.github.io/cuss/)
+### [Playground](https://yisar.github.io/peacecss/)
 
 ### Use
 
@@ -10,7 +10,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/yisar/cuss"
+	"github.com/yisar/peacecss"
 )
 
 func main() {
