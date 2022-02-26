@@ -71,13 +71,23 @@
             const input = document.querySelector('.editor');
             const output = document.querySelector('.output');
             const minisize = document.querySelector('.minisize');
-            input.value = `.a{color: #fff;}`;
+            input.value = `body {
+    background-color:#d0e4fe;
+}
+h1 {
+    color:orange;
+    text-align:center;
+}
+p {
+    font-family:"Times New Roman";
+    font-size:20px;
+}`;
             output.textContent = window.nextcssParse(input.value);
-            minisize.textContent = window.nextcssMinisize()
+            minisize.textContent = window.nextcssMinisize(input.value)
             input.oninput = (e) => {
                 const i = e.target.value
                 const o = window.nextcssParse(i)
-                const m = window.nextcssMinisize()
+                const m = window.nextcssMinisize(i)
                 output.textContent = o;
                 minisize.textContent = m;
             }
