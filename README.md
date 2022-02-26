@@ -1,7 +1,7 @@
 # nextcss
 Postcss alternative.
 
-### [Playground](https://yisar.github.io/cssnext/)
+### [Playground](https://yisar.github.io/nextcss/)
 
 ### Use
 
