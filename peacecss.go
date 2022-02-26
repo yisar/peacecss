@@ -1,4 +1,4 @@
-package cuss
+package peacecss
 
 import (
 	"bytes"

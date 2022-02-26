@@ -4,25 +4,25 @@ import (
 	"encoding/json"
 	"fmt"
 	"syscall/js"
-	cuss "github.com/yisar/cuss"
+	peacecss "github.com/yisar/peacecss"
 )
 
-func JSONStringfy(data []*cuss.CSSDefinition) string {
+func JSONStringfy(data []*peacecss.CSSDefinition) string {
 	ret, _ := json.MarshalIndent(data, "", "  ")
 	return string(ret)
 }
 
 func registerWasm() {
-	js.Global().Set("cussParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		parser := cuss.NewParser()
+	js.Global().Set("peacecssParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		parser := peacecss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
 		out := JSONStringfy(ast.GetData())
 		return out
 	}))
 
-	js.Global().Set("cussMinisize", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-		parser := cuss.NewParser()
+	js.Global().Set("peacecssMinisize", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		parser := peacecss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
 		out := ast.Minisize()
@@ -33,13 +33,13 @@ func registerWasm() {
 }
 
 func test() {
-	parser := cuss.NewParser()
+	parser := peacecss.NewParser()
 
 	s := []byte(".a{color:#fff;}")
 
 	ast := parser.Parse(s)
 
-	ast.Walk(func (node *cuss.CSSDefinition){
+	ast.Walk(func (node *peacecss.CSSDefinition){
 		fmt.Printf("before: %v\n", node)
 
 		node.Selector.Selector = ".b"

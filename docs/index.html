@@ -44,7 +44,7 @@
             overflow: scroll;
         }
     </style>
-    <h1>Cuss playground</h1>
+    <h1>PeaceCSS playground</h1>
     <div class="container">
         <textarea name="" id="" cols="30" rows="10" class="editor"
             placeholder="Please input any wxml template..."></textarea>
@@ -62,7 +62,7 @@
 
         const go = new Go();
         let mod, inst;
-        WebAssembly.instantiateStreaming(fetch("./cuss.wasm"), go.importObject).then((result) => {
+        WebAssembly.instantiateStreaming(fetch("./peacecss.wasm"), go.importObject).then((result) => {
             mod = result.module;
             inst = result.instance;
             go.run(inst);
@@ -82,12 +82,12 @@ p {
     font-family:"Times New Roman";
     font-size:20px;
 }`;
-            output.textContent = window.cussParse(input.value);
-            minisize.textContent = window.cussMinisize(input.value)
+            output.textContent = window.peacecssParse(input.value);
+            minisize.textContent = window.peacecssMinisize(input.value)
             input.oninput = (e) => {
                 const i = e.target.value
-                const o = window.cussParse(i)
-                const m = window.cussMinisize(i)
+                const o = window.peacecssParse(i)
+                const m = window.peacecssMinisize(i)
                 output.textContent = o;
                 minisize.textContent = m;
             }
