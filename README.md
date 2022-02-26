@@ -1,4 +1,4 @@
-# cuss
+# peacecss
 Postcss alternative.
 
 ### [Playground](https://yisar.github.io/cuss/)
