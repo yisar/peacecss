@@ -1,4 +1,4 @@
-package nextcss
+package cuss
 
 import (
 	"bytes"
