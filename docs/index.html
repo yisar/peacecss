@@ -49,6 +49,7 @@
         <textarea name="" id="" cols="30" rows="10" class="editor"
             placeholder="Please input any wxml template..."></textarea>
         <pre class="output"></pre>
+        <pre class="minisize"></pre>
     </div>
     <script src="wasm_exec.js"></script>
     <script>
@@ -61,7 +62,7 @@
 
         const go = new Go();
         let mod, inst;
-        WebAssembly.instantiateStreaming(fetch("./cssnext.wasm"), go.importObject).then((result) => {
+        WebAssembly.instantiateStreaming(fetch("./nextcss.wasm"), go.importObject).then((result) => {
             mod = result.module;
             inst = result.instance;
             go.run(inst);
@@ -69,12 +70,16 @@
 
             const input = document.querySelector('.editor');
             const output = document.querySelector('.output');
+            const minisize = document.querySelector('.minisize');
             input.value = `.a{color: #fff;}`;
-            output.textContent = window.cssnextParse(input.value);
+            output.textContent = window.nextcssParse(input.value);
+            minisize.textContent = window.nextcssMinisize()
             input.oninput = (e) => {
                 const i = e.target.value
-                const o = window.cssnextParse(i)
+                const o = window.nextcssParse(i)
+                const m = window.nextcssMinisize()
                 output.textContent = o;
+                minisize.textContent = m;
             }
 
 
