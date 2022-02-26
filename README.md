@@ -21,16 +21,16 @@ func main() {
 	ast := parser.Parse(s)
 	
 	ast.Walk(func (node *nextcss.CSSDefinition){
-		fmt.Printf("before: %v\n", node)
+		fmt.Printf("%v", node)
 		
 		node.Selector.Selector = ".b"
 	
-		fmt.Printf("after: %v\n", node)
+		fmt.Printf("%v", node)
 	})
 
 	mini := ast.Minisize()
 
-	fmt.Printf("ast: %s\n", mini.String())
+	fmt.Printf("%s", mini.String())
 	
 }
 ```
