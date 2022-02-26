@@ -1,7 +1,7 @@
-# nextcss
+# cuss
 Postcss alternative.
 
-### [Playground](https://yisar.github.io/nextcss/)
+### [Playground](https://yisar.github.io/cuss/)
 
 ### Use
 
