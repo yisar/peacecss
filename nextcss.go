@@ -86,6 +86,11 @@ type CSSDefinitionList struct {
 	definitions []*CSSDefinition
 }
 
+type CSSGenerator struct{
+	output []byte
+}
+
+
 func NewDefinitionList() *CSSDefinitionList {
 	return &CSSDefinitionList{
 		definitions: make([]*CSSDefinition, 0),
@@ -195,6 +200,13 @@ func (c CSSParseResult) ToPrettyJSONString() string {
 
 func (c CSSParseResult) GetData() []*CSSDefinition {
 	return c.data
+}
+
+func (c CSSParseResult) Walk(visitor func(*CSSDefinition)){
+	for _, v := range c.data {
+		visitor(v)
+	}
+
 }
 
 func NewRule(property []byte, line, point int) *CSSRule {

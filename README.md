@@ -14,13 +14,23 @@ import (
 )
 
 func main() {
-	parser := parser.NewParser()
+	parser := nextcss.NewParser()
 
 	s := []byte(".a{color:#fff;}")
 
 	ast := parser.Parse(s)
+	
+	ast.Walk(func (node *nextcss.CSSDefinition){
+		fmt.Printf("before: %v\n", node)
+		
+		node.Selector.Selector = ".b"
+	
+		fmt.Printf("after: %v\n", node)
+	})
 
-	fmt.Printf("ast: %s\n", ast.ToPrettyJSON())
+	out := ast.ToPrettyJSON()
+
+	fmt.Printf("ast: %s\n", out)
 	
 }
 ```
