@@ -21,9 +21,11 @@ func main() {
 		fmt.Printf("after: %v\n", node)
 	})
 
-	out := ast.ToPrettyJSON()
+	ast.Minisize()
 
-	fmt.Printf("ast: %s\n", out)
+	// json := ast.ToPrettyJSON()
+
+	// fmt.Printf("ast: %s\n", json)
 
 	// js.Global().Set("cssnextParse", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 	// 	parser := cssnext.NewParser()

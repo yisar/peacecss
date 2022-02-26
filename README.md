@@ -28,9 +28,9 @@ func main() {
 		fmt.Printf("after: %v\n", node)
 	})
 
-	out := ast.ToPrettyJSON()
+	mini := ast.Minisize()
 
-	fmt.Printf("ast: %s\n", out)
+	fmt.Printf("ast: %s\n", mini.String())
 	
 }
 ```

@@ -2,7 +2,6 @@ package nextcss
 
 import (
 	"bytes"
-	"encoding/json"
 	"regexp"
 )
 
@@ -85,11 +84,6 @@ type CSSDefinition struct {
 type CSSDefinitionList struct {
 	definitions []*CSSDefinition
 }
-
-type CSSGenerator struct{
-	output []byte
-}
-
 
 func NewDefinitionList() *CSSDefinitionList {
 	return &CSSDefinitionList{
@@ -174,39 +168,35 @@ func (l *CSSDefinitionTree) Remove() {
 	l.definitions = l.definitions[0 : len(l.definitions)-1]
 }
 
-func (c CSSParseResult) ToJSON() []byte {
-	ret, _ := json.Marshal(c.data)
-
-	return ret
-}
-
-func (c CSSParseResult) ToJSONString() string {
-	ret, _ := json.Marshal(c.data)
-
-	return string(ret)
-}
-
-func (c CSSParseResult) ToPrettyJSON() []byte {
-	ret, _ := json.MarshalIndent(c.data, "", "  ")
-
-	return ret
-}
-
-func (c CSSParseResult) ToPrettyJSONString() string {
-	ret, _ := json.MarshalIndent(c.data, "", "  ")
-
-	return string(ret)
-}
-
 func (c CSSParseResult) GetData() []*CSSDefinition {
 	return c.data
 }
 
-func (c CSSParseResult) Walk(visitor func(*CSSDefinition)){
+func (c CSSParseResult) Walk(visitor func(*CSSDefinition)) {
 	for _, v := range c.data {
 		visitor(v)
 	}
 
+}
+
+func (c CSSParseResult) Minisize() bytes.Buffer {
+	var buffer bytes.Buffer
+	for _, v := range c.data {
+		s := v.Selector.Selector
+		buffer.WriteString(s)
+		buffer.WriteByte(BRACE_OPEN)
+		for _, r := range v.Rules {
+			p := r.Property
+			v := r.Value.Value
+			buffer.WriteString(p)
+			buffer.WriteByte(COLON)
+			buffer.WriteString(v)
+			buffer.WriteByte(SEMI)
+		}
+		buffer.WriteByte(BRACE_CLOSE)
+
+	}
+	return buffer
 }
 
 func NewRule(property []byte, line, point int) *CSSRule {
