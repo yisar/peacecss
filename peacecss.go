@@ -172,9 +172,14 @@ func (c CSSParseResult) GetData() []*CSSDefinition {
 	return c.data
 }
 
-func (c CSSParseResult) Walk(visitor func(*CSSDefinition)) {
+func (c CSSParseResult) Traverse(callback func(*CSSDefinition)) {
 	for _, v := range c.data {
-		visitor(v)
+		callback(v)
+		if len(v.Controls) > 0 {
+			for _, co := range v.Controls {
+				callback(co)
+			}
+		}
 	}
 
 }

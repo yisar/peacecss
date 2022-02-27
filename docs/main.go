@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"regexp"
+	"strconv"
 	"syscall/js"
 	peacecss "github.com/yisar/peacecss"
 )
@@ -17,6 +19,7 @@ func registerWasm() {
 		parser := peacecss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
+		ast.Walk(rex2rem)
 		out := JSONStringfy(ast.GetData())
 		return out
 	}))
@@ -25,6 +28,7 @@ func registerWasm() {
 		parser := peacecss.NewParser()
 		s := []byte(args[0].String())
 		ast := parser.Parse(s)
+		ast.Walk(rex2rem)
 		out := ast.Minisize()
 		return out.String()
 	}))
@@ -32,20 +36,29 @@ func registerWasm() {
 	select {}
 }
 
+func rex2rem(node *peacecss.CSSDefinition) {
+	fmt.Printf("before: %v\n", node)
+
+	for _, r := range node.Rules {
+		reg, _ := regexp.Compile("([0-9]+)rpx")
+		r.Value.Value = reg.ReplaceAllStringFunc(r.Value.Value, func(s string) string {
+			num, _ := strconv.Atoi(s[:len(s) - 3])
+			rem := num / 75
+			return strconv.Itoa(rem) + "rem"
+		})
+	}
+
+	fmt.Printf("after: %v\n", node)
+}
+
 func test() {
 	parser := peacecss.NewParser()
 
-	s := []byte(".a{color:#fff;}")
+	s := []byte(".a{width:75rpx}")
 
 	ast := parser.Parse(s)
 
-	ast.Walk(func (node *peacecss.CSSDefinition){
-		fmt.Printf("before: %v\n", node)
-
-		node.Selector.Selector = ".b"
-
-		fmt.Printf("after: %v\n", node)
-	})
+	ast.Traverse(rex2rem)
 
 	ast.Minisize()
 
@@ -56,4 +69,5 @@ func test() {
 
 func main() {
 	registerWasm()
+	// test()
 }
