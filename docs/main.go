@@ -37,8 +37,6 @@ func registerWasm() {
 }
 
 func rex2rem(node *peacecss.CSSDefinition) {
-	fmt.Printf("before: %v\n", node)
-
 	for _, r := range node.Rules {
 		reg, _ := regexp.Compile("([0-9]+)rpx")
 		r.Value.Value = reg.ReplaceAllStringFunc(r.Value.Value, func(s string) string {
@@ -47,8 +45,6 @@ func rex2rem(node *peacecss.CSSDefinition) {
 			return fmt.Sprintf("%.2f", rem) + "rem"
 		})
 	}
-
-	fmt.Printf("after: %v\n", node)
 }
 
 func test() {
