@@ -172,7 +172,12 @@ func (c CSSParseResult) GetData() []*CSSDefinition {
 	return c.data
 }
 
-func (c CSSParseResult) Traverse(callback func(*CSSDefinition)) {
+func (c CSSParseResult) Traverse(callbacks ...func(*CSSDefinition)) {
+	callback := func (node *CSSDefinition)  {
+		for _, cbb := range callbacks {
+			cbb(node)
+		}
+	}
 	for _, v := range c.data {
 		callback(v)
 		if len(v.Controls) > 0 {
