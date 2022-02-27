@@ -20,7 +20,7 @@ func main() {
 
 	ast := parser.Parse(s)
 	
-	ast.Walk(func (node *nextcss.CSSDefinition){
+	ast.Walk(func (node *peacecss.CSSDefinition){
 		fmt.Printf("%v", node)
 		
 		node.Selector.Selector = ".b"
