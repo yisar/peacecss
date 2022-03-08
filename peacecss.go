@@ -40,7 +40,7 @@ type CSSParser struct {
 }
 
 type CSSValue struct {
-	Value     string `json:"data"`
+	Value     string `json:"value"`
 	DefLine   int    `json:"line"`
 	Point     int    `json:"column"`
 	Semicolon bool   `json:"semicolon"`
